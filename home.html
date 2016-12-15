@@ -60,12 +60,12 @@
 
                 var feature_group = new L.featureGroup([]);
 
-                var mapLayerJSON = new L.GeoJSON.AJAX("data/singapore.json", {
+                var mapLayerJSON = new L.GeoJSON.AJAX("data/regions.json", {
                     style: {
                         color: '#c4c4c4',
-                        weight: '6.0',
+                        weight: '2.0',
                         fillColor: '#08306b',
-                        opacity: '1.0',
+                        opacity: '0.5',
                         fillOpacity: '0.0',
                     }
                 });
@@ -77,8 +77,8 @@
 
                 var getRandomLocation = function (latitude, longitude, radiusInMeters) {
                     var getRandomCoordinates = function (radius, uniform) {
-                        var a = Math.random(),
-                                b = Math.random();
+                        var a = Math.random();
+                        var b = Math.random();
 
                         if (uniform) {
                             if (b < a) {
@@ -108,8 +108,8 @@
                 /*
                 map.on('click', function (e) {
                     prompt(e.latlng.lat + ", " + e.latlng.lng, e.latlng.lat + ", " + e.latlng.lng)
-                })
-                */
+                });
+               */ 
                
                 var point;
                 var pointArr = [];
@@ -128,48 +128,55 @@
                 var noOfppl = 50;
                 
                 function crowdMovement() {
+                    // central
                     for (i = 0; i < noOfppl; i++) {
                         latlong = getRandomLocation(1.3521, 103.8198, distance);
                         point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
                         pointArr.push(point); 
                         point.addTo(map);
                     }
-
+                    
+                    // north
                     for (i = 0; i < noOfppl; i++) {
                         latlong = getRandomLocation(1.4269307173650994, 103.81324768066406, distance);
                         point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
                         pointArr.push(point); 
                         point.addTo(map);
                     }
-
+                    
+                    // east
                     for (i = 0; i < noOfppl; i++) {
                         latlong = getRandomLocation(1.3670959104527012, 103.90079498291016, distance);
                         point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
                         pointArr.push(point);
                         point.addTo(map);
                     }
-
+                    
+                    // west
                     for (i = 0; i < noOfppl; i++) {
-                        latlong = getRandomLocation(1.361604303714409, 103.7112808227539, distance);
+                        latlong = getRandomLocation(1.361604303714409, 103.7112808227539, 5000);
                         point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
                         pointArr.push(point);
                         point.addTo(map);
                     }
-
+                    
+                    // central-west
                     for (i = 0; i < noOfppl; i++) {
                         latlong = getRandomLocation(1.3699561173272734, 103.76792907714844, distance);
                         point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
                         pointArr.push(point);
                         point.addTo(map);
                     }
-
+                    
+                    // extreme east
                     for (i = 0; i < noOfppl; i++) {
-                        latlong = getRandomLocation(1.3466167301443492, 103.97117614746094, distance);
+                        latlong = getRandomLocation(1.3466167301443492, 103.97117614746094, 3000);
                         point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
                         pointArr.push(point);
                         point.addTo(map);
                     }
                     
+                    // south
                     for (i = 0; i < noOfppl; i++) {
                         latlong = getRandomLocation(1.3013102263776561, 103.82560729980469, distance);
                         point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
