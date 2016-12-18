@@ -9,7 +9,9 @@
         <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
         <link rel="stylesheet" type="text/css" href="css/home.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-switch.min.css" />       
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-switch.min.css" /> 
+        <link rel="stylesheet" type="text/css" href="css/menu.css" /> 
+        <link rel="stylesheet" type="text/css" href="css/jquerysctipttop.css">
         <link rel="stylesheet" type="text/css" href="css/components.min.css" id="style_components" />        
         <link rel="stylesheet" type="text/css" href="css/login.css" />
         <link rel="stylesheet" type="text/css" href="css/error.min.css" />  
@@ -53,13 +55,16 @@
                 </div>   
                 <div class="form-group">
                     <label class="rememberme mt-checkbox mt-checkbox-outline">
-                        <input type="checkbox" name="remember" value="1" /> Remember me
+                        <input id="remember" type="checkbox" name="remember" value="1" /> Remember me
                         <span></span>
                     </label>
                     <button id="login" type="submit" class="btn pull-right"> Login </button>
                 </div>    
             </form>
 
+            <div id="app_info" class="iconsubmenu mixedcontent">
+                <p>Remembers your Username and Password for 30 days.</p>            
+            </div>
 
             <div id="notification" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog">
@@ -153,6 +158,7 @@
             </div>
         </div>            
         <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.js"></script>    
         <script type="text/javascript" src="js/bootstrap.min.js"></script>                       
         <script type="text/javascript" src="js/bootstrap-switch.min.js"></script>      
         <script type="text/javascript" src="js/jquery.validate.min.js"></script>             
