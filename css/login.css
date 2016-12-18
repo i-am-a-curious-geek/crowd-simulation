@@ -141,7 +141,7 @@
         margin-top: 10px
     }
     .login .content {
-        width: 250px;
+        width: 265px;
         margin-bottom: 5px;
     }
     .login .content h3 {
@@ -153,4 +153,35 @@
     #login {
         margin-bottom: 5px;
     }
+}
+
+#close-terms-and-conditions {
+    color:black;
+}
+
+#close-terms-and-conditions:hover {
+    color:#ccc;
+    cursor:pointer;
+}
+
+#term-and-conditions { 
+    display:none;
+    border:2px solid #ccc;   
+    background-color:white;     
+    padding:10px;        
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 60vw;
+    height: 60vh;
+    z-index:10;
+}
+
+#term-and-conditions-content {      
+    height:100%;
+    overflow-y:auto;
+    color:black;
 }
