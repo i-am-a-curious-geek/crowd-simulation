@@ -185,3 +185,7 @@
     overflow-y:auto;
     color:black;
 }
+
+body {
+    overflow:hidden;
+}

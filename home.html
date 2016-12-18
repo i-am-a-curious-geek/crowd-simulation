@@ -16,13 +16,13 @@
     <body>
         <div id="wrapper"></div>
         <ul id="myiconmenu" class="iconmenu">            
-            <li><a class="fa fa-info-circle" href="#" rel="app_info"></a></li>         
+            <!--<li><a class="fa fa-info-circle" href="#" rel="app_info"></a></li>-->         
             <li><a id="toggle-boundaries" class="fa fa-eye-slash" href="#" rel="toggle-boundaries2"></a></li>                     
             <!--<li><a class="fa fa-bars" rel="boundary-display"></a></li>-->
             <li><a id="logout-option" class="fa fa-unlock" href="#" rel="logout"></a></li>           
         </ul>
 
-        <div id="app_info" class="iconsubmenu mixedcontent">
+        <!--<div id="app_info" class="iconsubmenu mixedcontent">
             <p>This application monitors real-time crowd movement in Singapore.</p>            
         </div>
         
@@ -34,7 +34,7 @@
             <p>Logout</p>            
         </div>
         
-        <!--<div id="boundary-display" class="iconsubmenu dropdownmenu">
+        <div id="boundary-display" class="iconsubmenu dropdownmenu">
             <ul>                
                 <li><a href="#">Option 1</a></li>
                 <li><a href="#">Option 2</a></li>                     
@@ -205,7 +205,9 @@
                 }
 
                 var p;
-
+                
+                crowdMovement();
+                
                 setInterval(function () {
                     crowdMovement();
 

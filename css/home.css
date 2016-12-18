@@ -5446,3 +5446,7 @@ a {
 .leaflet-top.leaflet-left {
     margin-top:10px;
 }
+
+body {
+    overflow:hidden;
+}
