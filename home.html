@@ -7,8 +7,7 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap-switch.min.css" />
         <link rel="stylesheet" type="text/css" href="css/leaflet.css" />  
-        <link rel="stylesheet" type="text/css" href="css/menu.css" />  
-        <link rel="stylesheet" type="text/css" href="css/jquerysctipttop.css">
+        <link rel="stylesheet" type="text/css" href="css/menu.css" />          
         <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />          
         <link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui.css">        
         <link rel="stylesheet" type="text/css" href="css/home.css" />  
@@ -20,7 +19,7 @@
             <li><a class="fa fa-info-circle" href="#" rel="app_info"></a></li>         
             <li><a id="toggle-boundaries" class="fa fa-eye-slash" href="#" rel="toggle-boundaries2"></a></li>                     
             <!--<li><a class="fa fa-bars" rel="boundary-display"></a></li>-->
-            <li><a id="logout" class="fa fa-unlock"></a></li>         
+            <li><a id="logout-option" class="fa fa-unlock" href="#" rel="logout"></a></li>           
         </ul>
 
         <div id="app_info" class="iconsubmenu mixedcontent">
@@ -29,6 +28,10 @@
         
         <div id="toggle-boundaries2" class="iconsubmenu mixedcontent">
             <p>Map Boundaries</p>            
+        </div>
+        
+        <div id="logout" class="iconsubmenu mixedcontent">
+            <p>Logout</p>            
         </div>
         
         <!--<div id="boundary-display" class="iconsubmenu dropdownmenu">
@@ -213,7 +216,7 @@
                     crowdMovement();
                 }, 5000);
                 
-                $("#logout").click(function () {
+                $("#logout-option").click(function () {
                     location.href = "index.html";
                 });
                 
