@@ -10,8 +10,7 @@
         <link rel="stylesheet" type="text/css" href="css/home.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap-switch.min.css" /> 
-        <link rel="stylesheet" type="text/css" href="css/menu.css" /> 
-        <link rel="stylesheet" type="text/css" href="css/jquerysctipttop.css">
+        <link rel="stylesheet" type="text/css" href="css/menu.css" />         
         <link rel="stylesheet" type="text/css" href="css/components.min.css" id="style_components" />        
         <link rel="stylesheet" type="text/css" href="css/login.css" />
         <link rel="stylesheet" type="text/css" href="css/error.min.css" />  
@@ -25,7 +24,7 @@
             <a href="index.html"><img src="img/logo.jpg" alt="" /></a>
         </div>
         <div class="content">                           
-            <form class="login-form" action="home.html" method="get"><!-- This is frontend so get is used. Best practice use post. -->
+            <form id="login-form" class="login-form" action="home.html" method="get"><!-- This is frontend so get is used. Best practice use post. -->
                 <h3 class="form-title">Login to your account</h3>
                 <!--<div class="alert alert-danger display-hide">
                     <button class="close" data-close="alert"></button>
@@ -55,16 +54,12 @@
                 </div>   
                 <div class="form-group">
                     <label class="rememberme mt-checkbox mt-checkbox-outline">
-                        <input id="remember" type="checkbox" name="remember" value="1" /> Remember me
+                        <input id="remember" type="checkbox" name="remember" /> Remember me
                         <span></span>
                     </label>
                     <button id="login" type="submit" class="btn pull-right"> Login </button>
                 </div>    
             </form>
-
-            <div id="app_info" class="iconsubmenu mixedcontent">
-                <p>Remembers your Username and Password for 30 days.</p>            
-            </div>
 
             <div id="notification" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog">
