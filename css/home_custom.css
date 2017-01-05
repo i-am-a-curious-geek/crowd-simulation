@@ -1,0 +1,12 @@
+body {
+    overflow:hidden;
+}   
+
+.leaflet-draw.leaflet-control {
+    display:none;
+}
+
+.leaflet-draw-toolbar #default_mode, .leaflet-draw-toolbar #save_geojson {
+    background-image: none;
+    color:#333;
+}   

@@ -6,64 +6,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap-switch.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/leaflet.css" />  
+
+        <script type="text/javascript" src="js/leaflet.js"></script>        
+        <script type="text/javascript" src="js/leaflet.ajax.js"></script>
+        <script type="text/javascript" src="js/autolinker.min.js"></script>      
+        <link rel="stylesheet" type="text/css" href="css/leaflet.css" />
+
         <link rel="stylesheet" type="text/css" href="css/menu.css" />          
         <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />          
         <link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui.css">        
         <link rel="stylesheet" type="text/css" href="css/home.css" />
-        <style>
-            body {
-                overflow-y:auto;
-            }
 
-            #chart-display {
-                margin-top:130px;
-                color:black;
-                height:30vh;
-                width:80vw;
-                border-radius:0;
-                background-color:white;
-                visibility:hidden;
-            }
-
-            #chart-container {
-                height:80%;
-                width:100%;
-            }
-
-            #chart-container-exterior {
-                height:100%;
-                width:100%;
-                padding:3px;
-                background-color:white;
-                visibility:hidden;
-            }
-        </style>
+        <script type="text/javascript" src="js/Leaflet.draw.js"></script>    
+        <link rel="stylesheet" href="css/Leaflet.draw.css"/> 
+        
+        <link rel="stylesheet" type="text/css" href="css/home_custom.css" />
         <link rel="shortcut icon" href="favicon.ico" />       
     </head>
     <body>
-        <div id="wrapper"></div>
+        <div id="map"></div>
         <ul id="myiconmenu" class="iconmenu">            
             <!--<li><a class="fa fa-info-circle" href="#" rel="app_info"></a></li>-->         
             <li><a id="toggle-boundaries" class="fa fa-eye-slash" href="#" rel="toggle-boundaries2"></a></li>                     
             <!--<li><a class="fa fa-bars" rel="boundary-display"></a></li>-->
-            <li><a id="chart-option" class="fa fa-line-chart" href="#" rel="chart"></a></li>
+            <!--<li><a id="chart-option" class="fa fa-line-chart" href="#" rel="chart"></a></li>-->
+            <li><a id="edit-mode" class="fa fa-pencil" href="#" rel="edit"></a></li>
             <li><a id="logout-option" class="fa fa-unlock" href="#" rel="logout"></a></li>           
-        </ul>
-
-        <ul id="chart-display" class="iconmenu">
-            <li id="chart-container-exterior"><i id="close-chart" class="fa fa-times-circle-o fa-2x pull-right"></i>
-                <div id="chart-container"></div>             
-            </li>
-        </ul>        
-        <!--<div id="app_info" class="iconsubmenu mixedcontent">
-            <p>This application monitors real-time crowd movement in Singapore.</p>            
-        </div>
+        </ul>  
         
-        <div id="toggle-boundaries2" class="iconsubmenu mixedcontent">
-            <p>Map Boundaries</p>            
-        </div>
-        
+        <!--
         <div id="logout" class="iconsubmenu mixedcontent">
             <p>Logout</p>            
         </div>
@@ -77,18 +48,28 @@
 
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/jquery-ui.js"></script>        
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/leaflet.js"></script>        
-        <script type="text/javascript" src="js/leaflet.ajax.js"></script>
-        <script type="text/javascript" src="js/autolinker.min.js"></script>      
-        <script type="text/javascript" src="js/menu.js"></script>   
-        <script type="text/javascript" src="js/highcharts.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>        
+        <script type="text/javascript" src="js/menu.js"></script> 
+
+        <script src="js/Toolbar.js"></script>
+        <script src="js/Tooltip.js"></script>
+        <script src="js/GeometryUtil.js"></script>
+        <script src="js/LatLngUtil.js"></script>
+        <script src="js/Leaflet.Intersect.js"></script>   
+        <script src="js/TouchEvents.js"></script>
+        <script src="js/Draw.Leaflet.js"></script>    
+        <script src="js/Leaflet.EditToolbar.js"></script>
+        <script src="js/Control.Draw.js"></script>
+        <script src="js/Edit.Leaflet.js"></script> 
+
         <script type="text/javascript">
             var map;
+            var geojson_text = '{ "type": "FeatureCollection", "features": [] };';
+            
             $(document).ready(function () {
                 window.history.pushState('basic-pages', 'Title', 'home.html'); // to overwrite url
 
-                map = L.map('wrapper', {
+                map = L.map('map', {
                     center: [1.3521, 103.8198],
                     zoom: 11
                 });
@@ -128,92 +109,44 @@
                     }
                 }
 
-                $("#close-chart").click(function () {
-                    $("#chart-display").css("visibility", "hidden");
-                    $("#chart-container-exterior").css("visibility", "hidden");
-                });
+                document.getElementById("edit-mode").onclick = function () {
+                    $("#myiconmenu.iconmenu").css("display", "none");
+                    $(".leaflet-draw.leaflet-control").css("display", "block");
 
-                $("#chart-option").click(function () {
-                    $("#chart-display").css("visibility", "visible");
-                    $("#chart-container-exterior").css("visibility", "visible");
-                });
-
-                $(function () {
-                    $(document).ready(function () {
-                        Highcharts.setOptions({
-                            global: {
-                                useUTC: false
-                            }
-                        });
-
-                        Highcharts.chart('chart-container', {
-                            chart: {
-                                type: 'spline',
-                                animation: Highcharts.svg, // don't animate in old IE
-                                marginRight: 10,
-                                events: {
-                                    load: function () {
-                                        // set up the updating of the chart each second
-                                        var series = this.series[0];
-                                        setInterval(function () {
-                                            var x = (new Date()).getTime(), // current time
-                                                    y = Math.random();
-                                            series.addPoint([x, y], true, true);
-                                        }, 1000);
-                                    }
-                                }
-                            },
-                            title: {
-                                text: 'Island Crowd Data'
-                            },
-                            xAxis: {
-                                type: 'datetime',
-                                tickPixelInterval: 150
-                            },
-                            yAxis: {
-                                title: {
-                                    text: 'No. of People'
-                                },
-                                plotLines: [{
-                                        value: 0,
-                                        width: 1,
-                                        color: 'transparent'
-                                    }]
-                            },
-                            tooltip: {
-                                formatter: function () {
-                                    return '<b>' + this.series.name + '</b><br/>' +
-                                            Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                                            Highcharts.numberFormat(this.y, 2);
-                                }
-                            },
-                            legend: {
-                                enabled: false
-                            },
-                            exporting: {
-                                enabled: false
-                            },
-                            series: [{
-                                    name: 'Random data',
-                                    data: (function () {
-                                        // generate an array of random data
-                                        var data = [],
-                                                time = (new Date()).getTime(),
-                                                i;
-
-                                        for (i = -19; i <= 0; i += 1) {
-                                            data.push({
-                                                x: time + i * 1000,
-                                                y: Math.random()
-                                            });
-                                        }
-                                        return data;
-                                    }())
-                                }]
-                        });
+                    $(".leaflet-draw-section").each(function (i) {
+                        if (i == $(".leaflet-draw-section").length - 1 && i < 2) {
+                            $(this).append('<div class="leaflet-draw-section"><div class="leaflet-draw-toolbar leaflet-bar"><a id="save_geojson" href="#" title="Save to File (GeoJson)" class="fa fa-save"><span class="sr-only">Save to File (GeoJson)</span></a><a id="default_mode" href="#" title="Default Mode" class="fa fa-arrow-left"><span class="sr-only">Default Mode</span></a></div></div>');
+                        }
                     });
+                }
+                
+                $("body").on("click", "#default_mode", function() {                   
+                   $("#myiconmenu.iconmenu").css("display", "block");
+                   $(".leaflet-draw.leaflet-control").css("display", "none");
                 });
+                
+                $("body").on("click", "#save_geojson", function() {
+                    //alert(geojson_text);                                        
+                    if (!window.Blob) {
+                        alert('Your browser does not support HTML5 "Blob" function required to save a file.');
+                    } else {
+                        var txtwrt = geojson_text;
 
+                        var textblob = new Blob([txtwrt], {type: 'text/plain'});                        
+                        var dwnlnk = document.createElement('a');
+                        dwnlnk.download = "geojson";                        
+                        if (window.webkitURL != null) {
+                            dwnlnk.href = window.webkitURL.createObjectURL(textblob);
+                        } else {
+                            dwnlnk.href = window.URL.createObjectURL(textblob);
+                            dwnlnk.onclick = destce;
+                            dwnlnk.style.display = 'none';
+                            document.body.appendChild(dwnlnk);
+                        }
+                        dwnlnk.click();
+                    }                    
+                });
+                
                 L.control.scale({options: {position: "bottomleft", maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}}).addTo(map);
 
                 var getRandomLocation = function (latitude, longitude, radiusInMeters) {
@@ -341,6 +274,32 @@
 
                 $("#logout-option").click(function () {
                     location.href = "index.html";
+                });
+
+
+                var drawnItems = L.featureGroup().addTo(map);
+
+                map.addControl(new L.Control.Draw({
+                    edit: {
+                        featureGroup: drawnItems,
+                        poly: {
+                            allowIntersection: false
+                        }
+                    },
+                    draw: {
+                        polygon: {
+                            allowIntersection: false,
+                            showArea: true
+                        }
+                    }
+                }));
+
+                map.on(L.Draw.Event.CREATED, function (event) {
+                    var layer = event.layer;
+                    drawnItems.addLayer(layer);
+                    
+                    geojson_text = JSON.stringify(drawnItems.toGeoJSON()); // to get the geojson out
+                    console.log(geojson_text);                                       
                 });
 
 

@@ -5271,7 +5271,7 @@ legend {
 }
 
 
-#wrapper {     
+#map {     
     height:100vh;
     width:100vw;
 }
@@ -5449,4 +5449,8 @@ a {
 
 body {
     overflow:hidden;
+}
+
+#close-chart:hover {
+    color:#ccc;
 }

@@ -71,6 +71,7 @@ $(document).ready(function () {
                         $wrapper.appendTo(document.body) //move it so it's a child of document.body
                         $submenu.data('istopmenu', true) //indicate this is top level wrapper
                     }
+                    /*
                     $anchor.bind((setting.trigger == "click") ? "click" : "mouseenter", function (e) { //when mouse clicks on or mouses over anchor
                         clearTimeout($submenu.data('timer').hide)
                         var offset = ($submenu.data('istopmenu')) ? $anchor.offset() : $anchor.position()
@@ -93,6 +94,7 @@ $(document).ready(function () {
                         if (relvalue != "[title]" || (setting.trigger == 'mouseenter' && !ddiconmenu.ismobile)) //on ipad/iphone, disable anchor link (those with a drop down menu) when clicked on (triggered by mouseover event on desktop), so menu is given a chance to appear
                             return false
                     })
+                    */
                     $wrapper.mouseenter(function () { //when mouse moves OVER submenu wrapper
                         clearTimeout($submenu.data('timer').hide)
                     })
