@@ -5270,12 +5270,6 @@ legend {
     position: fixed;
 }
 
-
-#map {     
-    height:100vh;
-    width:100vw;
-}
-
 .messages-dropdown .dropdown-menu .message-preview .avatar,
 .messages-dropdown .dropdown-menu .message-preview .name,
 .messages-dropdown .dropdown-menu .message-preview .message,

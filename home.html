@@ -19,7 +19,7 @@
 
         <script type="text/javascript" src="js/Leaflet.draw.js"></script>    
         <link rel="stylesheet" href="css/Leaflet.draw.css"/> 
-        
+
         <link rel="stylesheet" type="text/css" href="css/home_custom.css" />
         <link rel="shortcut icon" href="favicon.ico" />       
     </head>
@@ -33,7 +33,7 @@
             <li><a id="edit-mode" class="fa fa-pencil" href="#" rel="edit"></a></li>
             <li><a id="logout-option" class="fa fa-unlock" href="#" rel="logout"></a></li>           
         </ul>  
-        
+
         <!--
         <div id="logout" class="iconsubmenu mixedcontent">
             <p>Logout</p>            
@@ -65,7 +65,7 @@
         <script type="text/javascript">
             var map;
             var geojson_text = '{ "type": "FeatureCollection", "features": [] };';
-            
+
             $(document).ready(function () {
                 window.history.pushState('basic-pages', 'Title', 'home.html'); // to overwrite url
 
@@ -119,22 +119,22 @@
                         }
                     });
                 }
-                
-                $("body").on("click", "#default_mode", function() {                   
-                   $("#myiconmenu.iconmenu").css("display", "block");
-                   $(".leaflet-draw.leaflet-control").css("display", "none");
+
+                $("body").on("click", "#default_mode", function () {
+                    $("#myiconmenu.iconmenu").css("display", "block");
+                    $(".leaflet-draw.leaflet-control").css("display", "none");
                 });
-                
-                $("body").on("click", "#save_geojson", function() {
+
+                $("body").on("click", "#save_geojson", function () {
                     //alert(geojson_text);                                        
                     if (!window.Blob) {
                         alert('Your browser does not support HTML5 "Blob" function required to save a file.');
                     } else {
                         var txtwrt = geojson_text;
 
-                        var textblob = new Blob([txtwrt], {type: 'text/plain'});                        
+                        var textblob = new Blob([txtwrt], {type: 'text/plain'});
                         var dwnlnk = document.createElement('a');
-                        dwnlnk.download = "geojson";                        
+                        dwnlnk.download = "geojson";
                         if (window.webkitURL != null) {
                             dwnlnk.href = window.webkitURL.createObjectURL(textblob);
                         } else {
@@ -144,9 +144,9 @@
                             document.body.appendChild(dwnlnk);
                         }
                         dwnlnk.click();
-                    }                    
+                    }
                 });
-                
+
                 L.control.scale({options: {position: "bottomleft", maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}}).addTo(map);
 
                 var getRandomLocation = function (latitude, longitude, radiusInMeters) {
@@ -297,12 +297,29 @@
                 map.on(L.Draw.Event.CREATED, function (event) {
                     var layer = event.layer;
                     drawnItems.addLayer(layer);
-                    
+
                     geojson_text = JSON.stringify(drawnItems.toGeoJSON()); // to get the geojson out
-                    console.log(geojson_text);                                       
+                    console.log(geojson_text);
                 });
+                
+                var winH = $(window).height();
+                var winW = $(window).width();
+                
+                if (winH < 450) {
+                    $("#map").height(450);                    
+                }                                
+                
+                window.onresize = function() {
+                    winH = $(window).height();
 
-
+                    if (winH < 450) {
+                        $("#map").height(450);
+                    } else {
+                        $("#map").height(winH);
+                    }
+                                        
+                }
+                
                 /*
                  $(".panel, #main-menu").on("mouseover", function() {                     
                  map.dragging.disable(); 
