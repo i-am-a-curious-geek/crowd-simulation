@@ -6,6 +6,12 @@
     padding: 15px;
     text-align: center
 }
+
+.login .logo #logo-fillter {
+    height:18.67px;
+    width:104px;
+}
+
 .login .content {
     background-color: #fff;
     width: 300px;
