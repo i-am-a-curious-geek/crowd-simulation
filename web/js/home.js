@@ -266,60 +266,71 @@ $(document).ready(function() {
             var fileredr = new FileReader();
             fileredr.onload = function(fle) {
                 uploadedLayerJSON = fle.target.result;
+                var errors = geojsonhint.hint(uploadedLayerJSON);
 
-                $.ajax({
-                    url: "db",
-                    type: "post",
-                    data: {
-                        q: "store",
-                        json: uploadedLayerJSON
-                    },
-                    success: function() {
-                        var uploadedLayerJSON2 = new L.GeoJSON.AJAX("db?q=getStored", {
-                            statics: {
-                                TYPE: 'polyline'
-                            },
-                            Poly: L.Polyline,
-                            options: {
-                                allowIntersection: true,
-                                repeatMode: false,
-                                drawError: {
-                                    color: '#b00b00',
-                                    timeout: 2500
-                                },
-                                icon: new L.DivIcon({
-                                    iconSize: new L.Point(8, 8),
-                                    className: 'leaflet-div-icon leaflet-editing-icon'
-                                }),
-                                touchIcon: new L.DivIcon({
-                                    iconSize: new L.Point(20, 20),
-                                    className: 'leaflet-div-icon leaflet-editing-icon leaflet-touch-icon'
-                                }),
-                                guidelineDistance: 20,
-                                maxGuideLineLength: 4000,
-                                shapeOptions: {
-                                    stroke: true,
-                                    color: '#3388ff',
-                                    weight: 4,
-                                    opacity: 0.5,
-                                    fill: false,
-                                    clickable: true
-                                },
-                                metric: true, // Whether to use the metric measurement system or imperial
-                                feet: true, // When not metric, to use feet instead of yards for display.
-                                nautic: false, // When not metric, not feet use nautic mile for display
-                                showLength: true, // Whether to display distance in the tooltip
-                                zIndexOffset: 2000 // This should be > than the highest z-index any map layers
-                            } 
-                        });
+                if (errors.length > 0) {
+                    var message = errors.map(function(error) {
+                        return error.message;
+                    });
 
-                        feature_group.addLayer(uploadedLayerJSON2);
-                        feature_group.addTo(map);
-                    },
-                    error: function(status) {
-                        alert("Error" + status + " has occurred.");
-                    }
-                });
+                    alert("Invalid GeoJSON: " + message);
+                } else if(uploadedLayerJSON.indexOf("FeatureCollection") == -1) {
+                    alert("Only \"FeatureCollection\" type GeoJSON is accepted.");
+                } else {
+                    $.ajax({
+                        url: "db",
+                        type: "post",
+                        data: {
+                            q: "store",
+                            json: uploadedLayerJSON
+                        },
+                        success: function() {
+                            var uploadedLayerJSON2 = new L.GeoJSON.AJAX("db?q=getStored", {
+                                statics: {
+                                    TYPE: 'polyline'
+                                },
+                                Poly: L.Polyline,
+                                options: {
+                                    allowIntersection: true,
+                                    repeatMode: false,
+                                    drawError: {
+                                        color: '#b00b00',
+                                        timeout: 2500
+                                    },
+                                    icon: new L.DivIcon({
+                                        iconSize: new L.Point(8, 8),
+                                        className: 'leaflet-div-icon leaflet-editing-icon'
+                                    }),
+                                    touchIcon: new L.DivIcon({
+                                        iconSize: new L.Point(20, 20),
+                                        className: 'leaflet-div-icon leaflet-editing-icon leaflet-touch-icon'
+                                    }),
+                                    guidelineDistance: 20,
+                                    maxGuideLineLength: 4000,
+                                    shapeOptions: {
+                                        stroke: true,
+                                        color: '#3388ff',
+                                        weight: 4,
+                                        opacity: 0.5,
+                                        fill: false,
+                                        clickable: true
+                                    },
+                                    metric: true, // Whether to use the metric measurement system or imperial
+                                    feet: true, // When not metric, to use feet instead of yards for display.
+                                    nautic: false, // When not metric, not feet use nautic mile for display
+                                    showLength: true, // Whether to display distance in the tooltip
+                                    zIndexOffset: 2000 // This should be > than the highest z-index any map layers
+                                }
+                            });
+
+                            feature_group.addLayer(uploadedLayerJSON2);
+                            feature_group.addTo(map);
+                        },
+                        error: function(status) {
+                            alert("Error" + status + " has occurred.");
+                        }
+                    });
+                }
             }
             fileredr.readAsText(fileis);
         }
