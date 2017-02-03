@@ -20,14 +20,16 @@ $(document).ready(function() {
 
         $(".leaflet-draw-section").each(function(i) {
             if (i == $(".leaflet-draw-section").length - 1 && i < 2) {
-                $(this).append("<div class=\"leaflet-draw-section\"><div class=\"leaflet-draw-toolbar leaflet-bar\"><a id=\"save_geojson\" href=\"#\" title=\"Save to File (GeoJson)\" class=\"fa fa-save\"><span class=\"sr-only\">Save to File (GeoJson)</span></a><a id=\"default_mode\" href=\"#\" title=\"Default Mode\" class=\"fa fa-arrow-left\"><span class=\"sr-only\">Default Mode</span></a></div></div>");
+                $(this).append("<div class=\"leaflet-draw-section\"><div class=\"leaflet-draw-toolbar leaflet-bar\"><a id=\"save_geojson\" href=\"#\" title=\"Save to File (GeoJSON)\" class=\"fa fa-save\"><span class=\"sr-only\">Save to File (GeoJson)</span></a><a id=\"default_mode\" href=\"#\" title=\"Default Mode\" class=\"fa fa-arrow-left\"><span class=\"sr-only\">Default Mode</span></a></div></div>");
             }
         });
     });
 
     $("body").on("click", "#save_geojson", function() {
         if (!window.Blob) {
-            alert("Your browser does not support HTML5 \"Blob\" function required to save a file.");
+            $("#notification").modal("show");
+            $("#modal-message").css("color", "#e73d4a");
+            $("#modal-message").html("<i class='fa fa-warning'></i> Your browser does not support HTML5 \"Blob\" function required to save a file.");            
         } else {
             var txtwrt = geojson_text; // content to write to file
 
@@ -197,10 +199,10 @@ $(document).ready(function() {
             regionsLayerJSON = new L.GeoJSON.AJAX("data/regions.json", {
                 style: {
                     color: "#c4c4c4",
-                    weight: "2.0",
+                    weight: 2.0,
                     fillColor: "#08306b",
-                    opacity: "0.5",
-                    fillOpacity: "0.0"
+                    opacity: 0.5,
+                    fillOpacity: 0.0
                 }
             });
 
@@ -259,8 +261,10 @@ $(document).ready(function() {
     var uploadedLayerJSON;
 
     $("body").on("change", ".geojsontxt", function() {
-        if (!window.FileReader) {
-            alert('Your browser does not support HTML5 "FileReader" function required to open a file.');
+        if (!window.FileReader) {            
+            $("#notification").modal("show");
+            $("#modal-message").css("color", "#e73d4a");
+            $("#modal-message").html("<i class='fa fa-warning'></i> Your browser does not support HTML5 \"FileReader\" function required to open a file.");            
         } else {
             var fileis = this.files[0];
             var fileredr = new FileReader();
@@ -272,10 +276,14 @@ $(document).ready(function() {
                     var message = errors.map(function(error) {
                         return error.message;
                     });
-
-                    alert("Invalid GeoJSON: " + message);
-                } else if(uploadedLayerJSON.indexOf("FeatureCollection") == -1) {
-                    alert("Only \"FeatureCollection\" type GeoJSON is accepted.");
+                    
+                    $("#notification").modal("show");
+                    $("#modal-message").css("color", "#e73d4a");
+                    $("#modal-message").html("<i class='fa fa-warning'></i> Invalid GeoJSON: " + message);                                
+                } else if(uploadedLayerJSON.indexOf("FeatureCollection") == -1) {                    
+                    $("#notification").modal("show");
+                    $("#modal-message").css("color", "#e73d4a");
+                    $("#modal-message").html("<i class='fa fa-warning'></i> Only \"FeatureCollection\" type GeoJSON is accepted.");            
                 } else {
                     $.ajax({
                         url: "db",

@@ -32,6 +32,17 @@
             <li><a id="edit-mode" class="fa fa-pencil" href="#"></a></li>
             <li><a id="logout-option" class="fa fa-unlock" href="#"></a></li>              
         </ul>  
+        
+        <div id="notification" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content" style="background-color:white">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <p id="modal-message"></p>
+                    </div>                                       
+                </div>
+            </div>
+        </div>
 
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/jquery-ui.js"></script>        
@@ -47,6 +58,7 @@
         <script src="js/Leaflet.EditToolbar.js"></script>
         <script src="js/Control.Draw.js"></script>
         <script src="js/Edit.Leaflet.js"></script> 
+        
         <script src="js/validate-geojson.js"></script>
         <script src="js/home.js"></script>         
     </body>
